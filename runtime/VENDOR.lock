@@ -1,0 +1,9 @@
+{
+  "package": "scorm-again",
+  "version": "3.0.5",
+  "source_url": "https://registry.npmjs.org/scorm-again/-/scorm-again-3.0.5.tgz",
+  "integrity": "sha512-UW4VvfGrB7+izNtABATQrp6ztPUV43Poyah3CbMdMkeF0gTrKu8RsnYXy2LRGmnIN2rPvQ6fnVk3HPYmAMiyVg==",
+  "build": "dist/scorm-again.min.js (UMD/IIFE, window.Scorm12API + window.Scorm2004API)",
+  "file_sha256": "80043e54b8d5fcd538e520695aac3befe31c6177a9ad1845a5df62221d1b1a51",
+  "vendored_at": "2026-06-01T12:52:41.520956+00:00"
+}

@@ -1,0 +1,170 @@
+{
+  "title": "İnteraktif Eğitim Vitrini",
+  "description": "Tüm 10 ekran tipini sergiler",
+  "scorm_version": "1.2",
+  "language": "tr",
+  "theme": "agency",
+  "tracking": {
+    "completion_rule": "viewed_all_and_passed",
+    "passing_score": 60
+  },
+  "assets": [
+    {
+      "id": "logo",
+      "filename": "logo.png",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNgYGBgAAAABQABAKChqAAAAABJRUVORK5CYII="
+    },
+    {
+      "id": "scene",
+      "filename": "scene.png",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNgYGBgAAAABQABAKChqAAAAABJRUVORK5CYII="
+    }
+  ],
+  "screens": [
+    {
+      "type": "title_slide",
+      "id": "t",
+      "title": "İnteraktif Eğitim",
+      "subtitle": "Sürükle-bırak, hotspot, dallanma ve daha fazlası"
+    },
+    {
+      "type": "content_slide",
+      "id": "c",
+      "title": "Genel Bakış",
+      "layout": "text_media",
+      "media_asset_id": "logo",
+      "body_html": "<p>Bu kurs <strong>10 ekran tipini</strong> sergiler.</p>"
+    },
+    {
+      "type": "mcq",
+      "id": "m",
+      "title": "Çoktan Seçmeli",
+      "prompt_html": "<p>Hangileri meyvedir? (çoklu)</p>",
+      "multi_select": true,
+      "options": [
+        {
+          "id": "a",
+          "text_html": "Elma",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text_html": "Havuç"
+        },
+        {
+          "id": "c",
+          "text_html": "Muz",
+          "correct": true
+        }
+      ],
+      "points": 10
+    },
+    {
+      "type": "true_false",
+      "id": "tf",
+      "title": "Doğru/Yanlış",
+      "prompt_html": "<p>Dünya düzdür.</p>",
+      "correct": false,
+      "points": 5
+    },
+    {
+      "type": "fill_blank",
+      "id": "fb",
+      "title": "Boşluk Doldur",
+      "prompt_html": "<p>Suyun formülü ___.</p>",
+      "blanks": [
+        {
+          "id": "b1",
+          "accepted": [
+            "H2O",
+            "h2o"
+          ]
+        }
+      ],
+      "points": 5
+    },
+    {
+      "type": "drag_drop",
+      "id": "dd",
+      "title": "Eşleştir",
+      "prompt_html": "<p>Başkentleri eşleştirin.</p>",
+      "items": [
+        {
+          "id": "i1",
+          "text_html": "Türkiye",
+          "correct_target_id": "d1"
+        },
+        {
+          "id": "i2",
+          "text_html": "Fransa",
+          "correct_target_id": "d2"
+        }
+      ],
+      "targets": [
+        {
+          "id": "d1",
+          "label_html": "Ankara"
+        },
+        {
+          "id": "d2",
+          "label_html": "Paris"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "type": "hotspot",
+      "id": "hs",
+      "title": "Hotspot",
+      "prompt_html": "<p>Doğru bölgeyi tıklayın.</p>",
+      "image_asset_id": "scene",
+      "regions": [
+        {
+          "id": "r1",
+          "shape": "rect",
+          "coords": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "correct": true,
+          "label_html": "Hedef"
+        }
+      ],
+      "points": 10
+    },
+    {
+      "type": "branching",
+      "id": "br",
+      "title": "Dallanma",
+      "prompt_html": "<p>Nereye gitmek istersiniz?</p>",
+      "choices": [
+        {
+          "id": "ch1",
+          "text_html": "Videoya git",
+          "goto_screen_id": "vd"
+        },
+        {
+          "id": "ch2",
+          "text_html": "Özete git",
+          "goto_screen_id": "sm"
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "id": "vd",
+      "title": "Video",
+      "video_url": "https://example.com/intro.mp4",
+      "caption": "Tanıtım videosu"
+    },
+    {
+      "type": "summary",
+      "id": "sm",
+      "title": "Özet",
+      "show_score": true,
+      "show_completion": true
+    }
+  ]
+}

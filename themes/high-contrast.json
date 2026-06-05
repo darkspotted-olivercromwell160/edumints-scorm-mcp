@@ -1,0 +1,38 @@
+{
+  "name": "high-contrast",
+  "typography": {
+    "font_heading": "'Atkinson Hyperlegible', 'Inter', system-ui, -apple-system, sans-serif",
+    "font_body": "'Atkinson Hyperlegible', 'Inter', system-ui, -apple-system, sans-serif",
+    "font_mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+    "base_size_px": 18,
+    "scale_ratio": 1.25,
+    "weight_heading": 800,
+    "weight_body": 500,
+    "weight_strong": 700,
+    "line_height_tight": 1.25,
+    "line_height_normal": 1.7,
+    "letter_spacing_heading": "0"
+  },
+  "color": {
+    "primary": "#0b3d91",
+    "primary_hover": "#082d6e",
+    "primary_contrast": "#ffffff",
+    "secondary": "#0b3d91",
+    "accent": "#b30021",
+    "bg": "#ffffff",
+    "surface": "#ffffff",
+    "surface_alt": "#f0f0f0",
+    "border": "#1a1a1a",
+    "text": "#000000",
+    "text_muted": "#1a1a1a",
+    "text_on_dark": "#ffffff",
+    "success": "#005c2e",
+    "success_bg": "#d6f0e0",
+    "error": "#b30021",
+    "error_bg": "#fbdbe0",
+    "warning": "#7a4a00",
+    "info": "#0b3d91",
+    "focus_ring": "#b30021"
+  },
+  "background_pattern": "none"
+}

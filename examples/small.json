@@ -1,0 +1,57 @@
+{
+  "title": "SCORM'a Giriş",
+  "description": "Kısa tanıtım kursu",
+  "scorm_version": "1.2",
+  "language": "tr",
+  "theme": "default",
+  "tracking": {
+    "completion_rule": "viewed_all_and_passed",
+    "passing_score": 50
+  },
+  "screens": [
+    {
+      "type": "title_slide",
+      "id": "t1",
+      "title": "SCORM'a Giriş",
+      "subtitle": "5 dakikada temel kavramlar"
+    },
+    {
+      "type": "content_slide",
+      "id": "c1",
+      "title": "SCORM Nedir?",
+      "body_html": "<p><strong>SCORM</strong>, e-öğrenme içeriğinin LMS ile konuşmasını sağlayan bir standarttır.</p><ul><li>Paketleme</li><li>İzleme</li><li>Taşınabilirlik</li></ul>"
+    },
+    {
+      "type": "mcq",
+      "id": "q1",
+      "title": "Mini Quiz",
+      "prompt_html": "<p>SCORM ne işe yarar?</p>",
+      "options": [
+        {
+          "id": "a",
+          "text_html": "İçerik–LMS iletişimi",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text_html": "Video düzenleme"
+        },
+        {
+          "id": "c",
+          "text_html": "Resim çizme"
+        }
+      ],
+      "points": 10,
+      "feedback": {
+        "correct_html": "Doğru! 🎉",
+        "incorrect_html": "Tekrar düşün."
+      }
+    },
+    {
+      "type": "summary",
+      "id": "s1",
+      "title": "Tebrikler",
+      "body_html": "<p>Temel kavramları öğrendiniz.</p>"
+    }
+  ]
+}
