@@ -728,7 +728,12 @@ async def validate_package(project_id: str) -> ValidateOut:
             zpath = Path(SETTINGS.data_dir) / meta.rel_path
             if zpath.exists():
                 errors += validate_zip(str(zpath), meta.scorm_version)
-        return ValidateOut(ok=len(errors) == 0, errors=errors)
+        # Faz 1 — uyarıları (ör. schema_unavailable) ayır; ok yalnız gerçek hatalara bağlı
+        from core.schema_validate import SCHEMA_UNAVAILABLE
+        warn_codes = {SCHEMA_UNAVAILABLE}
+        warnings = [e for e in errors if e.code in warn_codes]
+        errors = [e for e in errors if e.code not in warn_codes]
+        return ValidateOut(ok=len(errors) == 0, errors=errors, warnings=warnings)
     except ToolError as e:
         raise _wrap(e)
 

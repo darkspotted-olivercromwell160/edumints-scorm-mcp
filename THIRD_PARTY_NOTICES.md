@@ -1,19 +1,29 @@
 # Third-Party Notices
 
-This project bundles the following third-party open-source components in `runtime/`:
+## Bundled in produced packages (`runtime/`)
 
-## scorm-again (v3.0.5)
-- SCORM 1.2 / 2004 runtime API (LMS bridge).
-- Author: Joshua P. (jcputney) — https://github.com/jcputney/scorm-again
-- License: MIT
-- Vendored build + integrity: see `runtime/VENDOR.lock`.
+### scorm-again (v3.0.5)
+- SCORM 1.2 / 2004 runtime API (LMS bridge). https://github.com/jcputney/scorm-again — License: MIT.
+- Vendored build + integrity: `runtime/VENDOR.lock`.
 
-## lottie-web (lottie_light)
-- Lottie animation player (loaded only when a course uses Lottie — opt-in).
-- Author: Airbnb — https://github.com/airbnb/lottie-web
-- License: MIT
+### lottie-web (lottie_light)
+- Lottie animation player (opt-in; loaded only when a course uses Lottie).
+  https://github.com/airbnb/lottie-web — License: MIT.
 
-GSAP (used by the optional HyperFrames video pipeline) is loaded from a CDN at render
-time and is not redistributed by this repository.
+GSAP (used by the optional HyperFrames video pipeline) is loaded from a CDN at render time and is not
+redistributed by this repository.
+
+## Used for server-side validation only (`runtime/schemas/`) — NOT shipped in packages
+
+### ADL schemas (vendored)
+- `adlcp_rootv1p2.xsd`, `adlcp_v1p3.xsd`, `adlseq_v1p3.xsd`, `adlnav_v1p3.xsd` — ADL Initiative SCORM
+  content-packaging extension schemas. Public domain (U.S. Government work). Vendored in
+  `runtime/schemas/adl/`.
+
+### IMS / 1EdTech and W3C schemas (fetched at runtime, NOT vendored)
+- `imscp*`, `imsss*`, `ims_xml.xsd` — IMS / 1EdTech Consortium content-packaging & simple-sequencing
+  schemas. `xml.xsd` — W3C. These are **not redistributed** here; they are fetched at runtime from
+  `www.imsglobal.org` / `www.w3.org` and cached locally (see `runtime/schemas/README.md`). They remain
+  under their respective owners' licenses.
 
 All third-party components retain their original licenses.

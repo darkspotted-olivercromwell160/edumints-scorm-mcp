@@ -111,11 +111,10 @@ def _build_2004(project: Project, file_list: list[str]) -> str:
     etree.SubElement(org, "title").text = project.title
     item = etree.SubElement(org, "item", identifier="ITEM-1", identifierref="RES-1")
     etree.SubElement(item, "title").text = project.title
-    # Sequencing iskeleti (v1 kapsamı): tek SCO, varsayılan akış
-    seq = etree.SubElement(item, f"{{{NS_IMSSS}}}sequencing")
-    ctrl = etree.SubElement(seq, f"{{{NS_IMSSS}}}controlMode")
-    ctrl.set("choice", "true")
-    ctrl.set("flow", "true")
+    # NOT: Tek-SCO (leaf) item'a imsss:controlMode flow/choice KOYULMAZ — SCORM Cloud parser'ı
+    # bunu "Flow on a leaf node [6022]" diye uyarır (flow/choice yalnız cluster düğümlerde anlamlı).
+    # Tek-SCO pakette sequencing'e gerek yok; imsss namespace bildirimi (nsmap) ileride çoklu-SCO
+    # için duruyor.
 
     resources = etree.SubElement(manifest, "resources")
     res = etree.SubElement(

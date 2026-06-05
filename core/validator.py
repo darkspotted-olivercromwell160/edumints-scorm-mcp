@@ -94,19 +94,23 @@ def validate_zip(zip_path: str, scorm_version: str) -> list[ValidationError]:
         if "imsmanifest.xml" not in names:
             errors.append(ValidationError(code="validation_error", message="imsmanifest.xml eksik"))
         else:
+            manifest_bytes = zf.read("imsmanifest.xml")
             try:
-                root = etree.fromstring(zf.read("imsmanifest.xml"))
+                root = etree.fromstring(manifest_bytes)
                 tag = etree.QName(root).localname
                 if tag != "manifest":
                     errors.append(ValidationError(code="validation_error",
                                   message="Kök öğe <manifest> değil", path="imsmanifest.xml"))
-                xml_text = zf.read("imsmanifest.xml").decode("utf-8", "ignore")
+                xml_text = manifest_bytes.decode("utf-8", "ignore")
                 if "schemaversion" not in xml_text:
                     errors.append(ValidationError(code="validation_error",
                                   message="schemaversion bulunamadı", path="imsmanifest.xml"))
                 if "index.html" not in xml_text:
                     errors.append(ValidationError(code="validation_error",
                                   message="Manifest index.html'i listelemiyor", path="imsmanifest.xml"))
+                # Faz 1 — resmi XSD conformance (additive; offline/no_network; şema yoksa uyarı).
+                from .schema_validate import validate_manifest_xsd
+                errors.extend(validate_manifest_xsd(manifest_bytes, scorm_version))
             except Exception as e:  # noqa: BLE001
                 errors.append(ValidationError(code="validation_error",
                               message=f"imsmanifest.xml ayrıştırılamadı: {e}", path="imsmanifest.xml"))

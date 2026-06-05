@@ -1,0 +1,79 @@
+{
+  "_note": "IMS/W3C schemas — FETCHED at runtime (not vendored; licensing). Rewrite absolute xml.xsd -> local. Offline override: SCORM_SCHEMA_DIR.",
+  "schemas": {
+    "12": {
+      "imscp_rootv1p1p2.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imscp_rootv1p1p2.xsd",
+        "sha256": "029cd01047bc90371fc0d3156f97bc2cf0c2d84cdf908f7c6576fc707ef76783",
+        "bytes": 13601
+      },
+      "ims_xml.xsd": {
+        "url": "https://www.imsglobal.org/xsd/ims_xml.xsd",
+        "sha256": "d5ee21b60f118e42f70837e66ef99f9b9977b7d9cf2bb321346371f2fa22a6b2",
+        "bytes": 1104
+      }
+    },
+    "2004": {
+      "imscp_v1p1.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imscp_v1p1.xsd",
+        "sha256": "464ea5ada964c8310146f8a7ae77cb9f336cfda5285ba8f7d5882c1779ddb2d4",
+        "bytes": 21767
+      },
+      "imsss_v1p0.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0.xsd",
+        "sha256": "62f77530b4898d88470778b73c95bd7acfdc86617ef65e7a6cd39b85542c2f67",
+        "bytes": 7204
+      },
+      "imsss_v1p0seqrule.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0seqrule.xsd",
+        "sha256": "7cb11eb050ad67e0fdc30341b87f4044ceeab85b22de8b10aad829dcc39fca6e",
+        "bytes": 8486
+      },
+      "imsss_v1p0objective.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0objective.xsd",
+        "sha256": "2703b15398f51ae58d3c9ae9d0767c3c0faaacfd6c6608c82060cd41c64c300c",
+        "bytes": 7265
+      },
+      "imsss_v1p0delivery.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0delivery.xsd",
+        "sha256": "1decbd57c376729b009e77bf99847d305b796e983df24d391c691c85fd958f51",
+        "bytes": 5015
+      },
+      "imsss_v1p0random.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0random.xsd",
+        "sha256": "27d8c87448f0b82cae102ede5b3cb69d856c7d8cbc817585cd90a7e2f40d1614",
+        "bytes": 4989
+      },
+      "imsss_v1p0rollup.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0rollup.xsd",
+        "sha256": "833d9294344abb81181fcbbaea768cf4834734f9828e5f40158df21080196165",
+        "bytes": 6253
+      },
+      "imsss_v1p0control.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0control.xsd",
+        "sha256": "2ad17e6cf1a5cc3b6ef1c53a4a46ecd01d19aca3a266dd7ca45cd405386cf4bb",
+        "bytes": 5246
+      },
+      "imsss_v1p0limit.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0limit.xsd",
+        "sha256": "3d40084a6b382d9cb3f4f711b7b01dd68ca9e8c55aae362b6fae7f1941e3fea0",
+        "bytes": 6465
+      },
+      "imsss_v1p0auxresource.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0auxresource.xsd",
+        "sha256": "0ae955f2aaad171a9cfdc44d594760e0603f720287e91e74a826f408657df1e6",
+        "bytes": 5056
+      },
+      "imsss_v1p0util.xsd": {
+        "url": "https://www.imsglobal.org/xsd/imsss_v1p0util.xsd",
+        "sha256": "022f7d1af7ae40bed9cbab411ef4881c7360e1b6f0790b6979615a8e6b5dcccd",
+        "bytes": 7836
+      },
+      "xml.xsd": {
+        "url": "https://www.w3.org/2001/xml.xsd",
+        "sha256": "61960fb3131e38022caad5360e2f33a3382578ab3c80cd58bd74320ede61b20c",
+        "bytes": 8836
+      }
+    }
+  }
+}

@@ -617,6 +617,7 @@ class ValidationError(BaseModel):
 class ValidateOut(BaseModel):
     ok: bool
     errors: list[ValidationError] = Field(default_factory=list)
+    warnings: list[ValidationError] = Field(default_factory=list)  # Faz 1 — bloklamayan uyarılar
 
 
 class BuildFromSpecOut(BaseModel):
