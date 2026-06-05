@@ -188,8 +188,8 @@ async def _owner() -> ApiKey:
         if "mcp" not in (getattr(tok, "scopes", None) or []):
             raise ToolError(
                 "forbidden",
-                "Hesabın henüz onaylanmadı. Bir yönetici onayladıktan sonra araçlar açılır "
-                "(mcp.edumints.com). Onaylandıysan Claude'da connector'ı yeniden bağla.",
+                "This account does not have the 'mcp' scope on this server "
+                "(token is missing the required scope).",
             )
         return ApiKey(
             id=f"logto:{sub}", label="logto-user", key_hash="",

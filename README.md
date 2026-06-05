@@ -5,7 +5,7 @@
 > Describe a course as a structured spec — the server validates, renders, and packages a
 > **self-contained SCORM zip** that runs on any LMS (Moodle, SCORM Cloud, …).
 
-🇹🇷 **Türkçe:** [README.tr.md](README.tr.md)
+**🌐 Languages:** [English](README.md) · [Türkçe](README.tr.md) · [Español](README.es.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Azərbaycanca](README.az.md) · [Қазақша](README.kk.md) · [Кыргызча](README.ky.md)
 
 Open-source, developed by the **[edumints.com](https://edumints.com)** platform. Built to be
 **self-hosted** — run it on your own computer or your own server — and **open to contribution**.

@@ -7,7 +7,7 @@ Eşzamanlı build_from_spec çağrılarıyla build yolunu döver; throughput + p
 
 Kullanım:
   python tests/load/load_build.py --concurrency 16 --requests 200
-  MCP_URL=https://mcp.edumints.com/scorm/mcp API_KEY=... python tests/load/load_build.py -c 16 -n 200
+  MCP_URL=http://localhost:8000/mcp API_KEY=... python tests/load/load_build.py -c 16 -n 200
 """
 
 from __future__ import annotations

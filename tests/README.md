@@ -38,7 +38,7 @@ set_theme, set_tracking, add_asset, preview, build_package, validate_package, bu
 python tests/load/load_build.py -c 16 -n 300
 
 # uzak (gerçek HTTP sunucu)
-MCP_URL=https://mcp.edumints.com/scorm/mcp API_KEY=<key> \
+MCP_URL=http://localhost:8000/mcp API_KEY=<key> \
   python tests/load/load_build.py -c 16 -n 300
 ```
 
@@ -69,7 +69,7 @@ yük testinde `MAX_PROJECTS_PER_KEY` / `MAX_PROJECT_MB` env'lerini yükseltin yo
 ## Coolify deploy notları
 
 - Build pack: **Dockerfile**; exposed port **8000**; kalıcı volume → `DATA_DIR` (`/data`).
-- Domain `mcp.edumints.com`, path `/scorm` (Traefik path routing + prefix strip), otomatik TLS.
+- Domain `localhost:8000`, path `/scorm` (Traefik path routing + prefix strip), otomatik TLS.
 - **Ters proxy buffering KAPALI** olmalı (Streamable HTTP streaming yapar; Traefik genelde sorunsuz).
 - Env: bkz. `.env.example`. `PUBLIC_BASE_URL` tam dış URL'i (prefix dahil) içermeli.
-- Claude'a bağlama: Custom Connector → `https://mcp.edumints.com/scorm/mcp`, header `Authorization: Bearer <api_key>`.
+- Claude'a bağlama: Custom Connector → `http://localhost:8000/mcp`, header `Authorization: Bearer <api_key>`.

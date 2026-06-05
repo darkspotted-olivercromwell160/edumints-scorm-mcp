@@ -5,7 +5,7 @@
 > Kursu yapılandırılmış bir spec olarak tarif edersin — sunucu doğrular, render eder ve
 > **kendi kendine yeten bir SCORM zip** olarak paketler; her LMS'te çalışır (Moodle, SCORM Cloud, …).
 
-🇬🇧 **English:** [README.md](README.md)
+**🌐 Diller:** [English](README.md) · [Türkçe](README.tr.md) · [Español](README.es.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Azərbaycanca](README.az.md) · [Қазақша](README.kk.md) · [Кыргызча](README.ky.md)
 
 Açık kaynak; **[edumints.com](https://edumints.com)** platformu tarafından geliştirildi. **Kendi
 bilgisayarında veya kendi sunucunda host edilebilir** ve **geliştirmeye/katkıya açıktır**.
