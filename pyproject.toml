@@ -22,6 +22,7 @@ dependencies = [
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+    "pytest-timeout>=2.3",   # CI güvenlik ağı: hiçbir test asılı kalmasın (per-test sınır)
     "ruff>=0.4",
     "mcp[cli]>=1.0",         # MCP Inspector / istemci testleri
 ]
@@ -48,6 +49,9 @@ packages = ["core", "components", "auth"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+# Güvenlik ağı: hiçbir test 90sn'yi aşmasın (CI'da 6h hang yerine fail-fast + hangi test belli olsun).
+timeout = 90
+timeout_method = "signal"
 
 [tool.ruff]
 line-length = 100

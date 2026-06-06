@@ -73,7 +73,9 @@ def _ensure_populated(version: str) -> Path | None:
         # IMS/W3C fetch (yalnız cache doldururken ağ)
         import httpx
         srcs = _ims_sources().get(_VER_KEY[version], {})
-        with httpx.Client(timeout=30, follow_redirects=True) as c:
+        # Sıkı timeout: CI/ağ erişilemezse hızlı fail → graceful schema_unavailable (asılı kalma yok).
+        _to = httpx.Timeout(20.0, connect=8.0)
+        with httpx.Client(timeout=_to, follow_redirects=True) as c:
             for fn, info in srcs.items():
                 data = c.get(info["url"]).content
                 want = info.get("sha256")

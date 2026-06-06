@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import io
+import os
 import secrets
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
@@ -94,6 +95,10 @@ class Packager:
         return f"{self.public_base_url}/files/{token}"
 
     async def start_ttl_cleaner(self, interval_sec: int = 3600) -> None:
+        # Testlerde başlatma: sonsuz arka-plan task'i event-loop teardown'ında pending kalıp
+        # pytest'i askıda bırakabiliyor (CI hang). conftest SCORM_NO_TTL_CLEANER=1 set eder.
+        if os.environ.get("SCORM_NO_TTL_CLEANER") == "1":
+            return
         if self._cleaner_task is None:
             self._cleaner_task = asyncio.create_task(self._ttl_loop(interval_sec))
 
