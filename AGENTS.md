@@ -97,6 +97,7 @@ Touch these only with maintainer approval; if a PR touches one, **flag and justi
 - PR description: what · why · files touched · tests added · `pytest -q`/`npm test` summary · "did not touch the DO-NOT-BREAK list" confirmation · (if media added) **provenance record** (§9).
 - **Stay inside your lane / file area** (defined in the issue). If other areas need work, note it in the PR and propose a separate issue — don't do it yourself.
 - Don't redo work already done — the issue describes the current frontier; advance it, don't re-polish existing capabilities.
+- **Do not create or edit `CAPABILITIES.md` or this `AGENTS.md`** — they are maintained outside the fleet. State what you completed in the PR description instead.
 - If CI isn't green, leave the PR as **draft**.
 
 ### Lane ownership (conflict avoidance)
