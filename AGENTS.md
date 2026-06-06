@@ -1,46 +1,150 @@
-# AGENTS.md — guidance for AI agents & contributors
+# AGENTS.md — edumints-scorm-mcp
 
-This file orients automated agents (and humans) working in this repository. Read it before making
-changes. See also `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md`.
+> For autonomous coding agents (Google Jules, Claude Code, etc.) and human contributors. **Read this file fully before starting a task.** If a rule conflicts with a task description, stop and ask. The specific scope of each task is defined in its linked GitHub issue.
 
-## What this project is
-A self-hostable **FastMCP** server that turns a structured course spec (sent by an AI client via the
-Model Context Protocol) into a **self-contained, SCORM-compliant** e-learning package (HTML5 +
-`scorm-again` runtime). The server **never calls an LLM** — it only validates, renders, packages, and
-runs conformance checks. **Author = the MCP client; assembler = this server.**
+---
 
-## Setup, build, test
+## 1. What this project is
+
+A self-hostable **FastMCP server** that turns a structured spec from an AI client into a **self-contained, SCORM-compliant e-learning package** (HTML5 + the vendored scorm-again runtime).
+
+**Invariant architecture principle:** Author = the MCP client · Assembler = this server. **The server never calls an LLM.** It only validates, scaffolds, renders components, bridges the runtime, and packages. Any change that violates this is rejected.
+
+Output: a self-contained `index.html` + `imsmanifest.xml` + assets + embedded SCORM runtime, zipped — runs in any LMS (Moodle, SCORM Cloud).
+
+---
+
+## 2. Architecture map
+
+```
+server.py            # FastMCP tools (@mcp.tool) — PUBLIC CONTRACT, do not break
+core/
+  project.py         # Pydantic models + spec schemas + ID generators  ⚠ HOT
+  store.py           # SQLite (aiosqlite/WAL) persistence
+  packager.py        # SCORM zip packaging (deterministic)
+  manifest.py        # imsmanifest.xml generation (1.2 + 2004)
+  validator.py       # project + package validation (+ XSD)
+  schema_validate.py # XSD conformance — ADL vendored, IMS fetch+cache
+  media.py/tts.py/video*.py   # media/audio/video (lazy/opt-in)
+  integrations/      # external source adapters (greenfield): provenance, openverse, ...
+components/
+  renderer.py        # spec → HTML  ⚠ HOT
+  templates.py       # SHELL / BASE_CSS / ENGINE_JS / FALLBACK  ⚠ HOT
+  engine/            # extracted pure-logic JS modules
+runtime/             # ⛔ VENDORED: scorm-again.min.js, lottie — do not hand-edit
+auth/                # ⛔ SENSITIVE: SSRF guard, OAuth, API-key, sanitization
+themes/  tools/  tests/  docs/
+```
+
+Screen types (19): title_slide, content_slide, mcq, true_false, fill_blank, drag_drop, hotspot, branching, video, summary, accordion, tabs, flashcards, matching, sorting, timeline, lottie, simulation.
+
+---
+
+## 3. Setup
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install ".[dev]"          # add ".[tts]" for the offline Turkish TTS (Piper)
-pytest -q                     # full test suite — keep it green
-ruff check .                  # lint (CI runs it non-blocking)
+pip install ".[dev]"        # pytest, pytest-asyncio, ruff, mcp[cli]
+pip install ".[tts]"        # only for TTS tasks (piper-tts; heavy)
+sudo apt-get install -y ffmpeg   # media/video tests
+npm ci                      # JS tests (vitest + jsdom)
 ```
-Optional features need extra tooling and are **skipped** by tests when absent: **video** (Node 22 +
-`npm i -g hyperframes` + ffmpeg) and **TTS** (`pip install ".[tts]"` + a Piper voice). A plain
-`pip install ".[dev]"` is enough for CI-equivalent checks.
 
-## Repository map
-- `core/` — Pydantic models, packaging, storage, manifest, validators (incl. `schema_validate.py`).
-- `components/` — HTML renderer + inline runtime engine (`templates.py`) + video compiler.
-- `auth/` — API-key + OAuth, SSRF guards, HTML sanitization. **Security-sensitive — do not weaken.**
-- `themes/`, `runtime/` — design tokens; vendored SCORM runtime + (validation-only) XSD schemas.
-- `server.py` — the `@mcp.tool` endpoints. `tests/` — pytest (+ a Node/vitest harness, when present).
+Python `>=3.11`. You don't need to run the server; agent tasks are test-driven.
 
-## House rules (important)
-- **Additive & backward-compatible.** Do **not** change existing MCP tool signatures or return schemas.
-  New behavior is **opt-in**. Heavy/optional features are **lazy** (the "zero-load" contract): nothing
-  loads or changes behavior for courses that don't use it.
-- **Small, focused modules.** Match the surrounding code's idioms. Turkish inline comments and a
-  "Faz N" (phase) convention are used throughout — keep them consistent.
-- **Tests first.** Add/adjust tests for any behavior change; the suite must stay green.
-- **No secrets, no private infrastructure, no customer data** in code, tests, docs, or commits.
-  Only `.env.example` is tracked; real `.env` is gitignored. Reference the connector generically
-  (e.g. `http://localhost:8000/mcp`), never a specific hosted deployment.
-- **Conformance:** the gating proof of SCORM correctness is a **SCORM Cloud** round-trip (import with
-  zero parser errors/warnings + launch + tracking). XSD validation is a supporting check. See
-  `docs/CONFORMANCE.md`.
+---
 
-## Definition of done for a change
-`pytest -q` green · `ruff check .` clean (or justified) · no secrets/infra added · backward-compatible ·
-docs/`CHANGELOG.md` updated when user-facing.
+## 4. Tests & validation — ALL green before opening a PR
+
+```bash
+pytest -q        # all Python tests
+npm test         # JS engine unit tests (vitest)
+ruff check .     # lint (line-length 100, py311)
+```
+
+Open a PR only when you've **added a test for new/changed behavior and the whole suite is green.** "Existing tests pass" is not enough — prove you didn't break out-of-scope behavior with a new test.
+
+---
+
+## 5. Conventions
+
+- **Turkish comments/docstrings** consistent with the existing style.
+- **Additive & backward-compatible.** Preserve existing signatures, return schemas, behavior. New features are opt-in.
+- **Small, focused modules.** Prefer a new file (greenfield) for a new capability.
+- ruff line-length 100. Pydantic v2 models live only in `core/project.py`.
+- No emoji in comments; rendered HTML uses inline SVG icons.
+- All `*_html` user input is sanitized with `nh3` — never bypass this layer.
+
+---
+
+## 6. ⛔ DO-NOT-BREAK list
+
+Touch these only with maintainer approval; if a PR touches one, **flag and justify it explicitly:**
+
+1. **`server.py` `@mcp.tool` signatures / return schema** — the public MCP contract.
+2. **`auth/`** (SSRF guard, OAuth, API-key, sanitization) — security boundary; always human/interactive.
+3. **`runtime/*.min.js`** — vendored.
+4. **Generated package format** (index.html/imsmanifest structure, runtime embedding) — golden tests guard this.
+5. **`ENGINE_JS` behavior** (scoring, branching, suspend_data serialization) — only behavior-preserving, with tests.
+6. **Meaning of existing `*.json` example/golden fixtures.**
+
+---
+
+## 7. Working rules (async, multi-agent)
+
+- **One task = one issue = one narrow scope = one PR.** Don't widen scope.
+- Branch: `agent/<lane>/<short-topic>`.
+- PR description: what · why · files touched · tests added · `pytest -q`/`npm test` summary · "did not touch the DO-NOT-BREAK list" confirmation · (if media added) **provenance record** (§9).
+- **Stay inside your lane / file area** (defined in the issue). If other areas need work, note it in the PR and propose a separate issue — don't do it yourself.
+- Don't redo work already done — the issue describes the current frontier; advance it, don't re-polish existing capabilities.
+- If CI isn't green, leave the PR as **draft**.
+
+### Lane ownership (conflict avoidance)
+
+| Lane | File area | Example |
+|------|-----------|---------|
+| tests-js | `tests/js/**` | engine unit/edge tests |
+| examples | `examples/**` | example/game course specs (multilingual) |
+| tooling | `pyproject.toml [tool.*]`, `.pre-commit-config.yaml`, `.github/workflows/**` | lint, pre-commit, deps |
+| themes | `themes/**`, `tests/test_themes.py` | theme/corporate presets |
+| docs | `docs/**`, `*.md` (except README) | developer/integration docs |
+| tests-load | `tests/load/**` | load/perf/regression |
+| i18n | `messages/**`, `examples/i18n/**` | localization |
+| asset-curator | `core/integrations/**`, `tests/test_integrations.py` | CC0/generative source adapters + provenance |
+| security-audit | `tests/security/**`, `docs/SECURITY-FINDINGS.md` | tests/report only — no code weakening |
+| corporate-template | `themes/corporate/**`, `examples/corporate/**` | corporate template packs |
+| docs-i18n | `README.*.md`, `docs/**` | sync docs across all languages |
+
+> **`templates.py` / `renderer.py` / `core/project.py` / `ENGINE_JS` are "hot files".** Work touching them (new screen type, model change) is **not parallelizable** — done one at a time, interactively, by maintainers. Async fleet tasks never touch them.
+
+---
+
+## 8. Suitable / not suitable for the async fleet
+
+**Suitable (async, narrow, patterned, greenfield):** test coverage, example/game specs, docs, dependency reports, theme/corporate presets, i18n, isolated source adapters (new `core/integrations/*` file + test), security test scans.
+
+**Not suitable (human + interactive):** XSD conformance closure, suspend_data format design, a11y interaction design, new screen type / game engine architecture, `auth/` changes, MCP contract/tool changes, hot-file refactors.
+
+---
+
+## 9. Asset provenance (copyright safety — REQUIRED)
+
+Every binary media asset (image/audio/video) that enters a package needs a provenance record. Allowed `source`: **only** `ai-generated`, `cc0`, `public-domain`, `own`, `local`. Anything else (copyrighted, "found online", unclear license) is **rejected** by CI.
+
+```json
+{ "asset": "img/x.svg", "source": "cc0", "license": "CC0-1.0",
+  "url": "https://...", "author": "", "retrieved_at": "2026-06-07", "license_url": "https://..." }
+```
+
+---
+
+## 10. Security
+
+- Never commit secrets/keys. `.env` never enters the repo.
+- Don't weaken `auth/` or the SSRF/sanitization code. All external fetches go through the SSRF guard.
+- A PR touching `auth/` is **never auto-merged.**
+- When in doubt, **stop and ask** — don't silently assume.
+
+---
+
+> PRs are gated by CI (tests + lint + XSD + a11y) and additional guardrails (provenance, file-area conflict). Maintainers review and integrate.

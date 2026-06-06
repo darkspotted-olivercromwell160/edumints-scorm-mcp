@@ -1,0 +1,63 @@
+# .github/workflows/docs-sync.yml
+# KENDİ KENDİNİ BELGELEYEN: main'e yetenek/özellik değişikliği girince tüm-dil doküman
+# sürüklenmesini (drift) yakalar → maintainer ajanı için bir issue açar (somut bağlamla).
+# Ağır çok-dosya düzenlemeyi maintainer (LLM ajanı) yapar; CI yalnız tetikler.
+name: docs-sync
+
+on:
+  push:
+    branches: [main]
+    paths: ["core/**", "README.md", "docs/SCREEN_TYPES.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  detect-drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Sürüklenme tespiti (8 dil aynı EN-sha'da mı?)
+        id: drift
+        run: |
+          en_sha=$(git log -1 --format=%h -- README.md)
+          echo "EN README son sha: $en_sha"
+          langs="tr es ru zh-CN az kk ky"
+          stale=""
+          for l in $langs; do
+            f="README.$l.md"
+            [[ -f "$f" ]] || { stale="$stale $f(yok)"; continue; }
+            marked=$(grep -oE 'synced: [0-9a-f]+' "$f" | awk '{print $2}' | head -1)
+            [[ "$marked" == "$en_sha" ]] || stale="$stale $f(synced:${marked:-none})"
+          done
+          # SCREEN_TYPES koddan sapmış mı (core/project.py değişti ama doc değişmedi)?
+          code_sha=$(git log -1 --format=%h -- core/project.py)
+          doc_sha=$(git log -1 --format=%h -- docs/SCREEN_TYPES.md 2>/dev/null || echo "none")
+          echo "stale=$stale" >> "$GITHUB_OUTPUT"
+          echo "en_sha=$en_sha" >> "$GITHUB_OUTPUT"
+          echo "code_sha=$code_sha  doc_sha=$doc_sha"
+
+      - name: Drift varsa maintainer issue'su aç
+        if: ${{ steps.drift.outputs.stale != '' }}
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          title="[agent:docs-i18n] Tüm-dil doküman senkronu (EN sha ${{ steps.drift.outputs.en_sha }})"
+          # Aynı başlıkta açık issue varsa tekrar açma (anti-tekrar)
+          existing=$(gh issue list --repo "${{ github.repository }}" --state open --search "$title in:title" --json number --jq '.[0].number' || true)
+          body="Maintainer görevi: yapılan işi kontrol et + 8 dildeki dokümanı EN kaynağına göre SOMUT güncelle.
+
+          **Senkron dışı:** ${{ steps.drift.outputs.stale }}
+          **Hedef EN sha:** ${{ steps.drift.outputs.en_sha }}
+          Her dil dosyasının altına \`<!-- synced: ${{ steps.drift.outputs.en_sha }} -->\` koy. Diller: tr, es, ru, zh-CN, az, kk, ky.
+          Kod DEĞİŞTİRME; yalnız README.*.md + docs/**. pytest -q yeşil kalmalı."
+          if [[ -n "$existing" ]]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$body"
+          else
+            gh label create "agent:docs-i18n" --repo "${{ github.repository }}" --force >/dev/null 2>&1 || true
+            gh issue create --repo "${{ github.repository }}" --title "$title" --label "agent:docs-i18n" --body "$body"
+          fi
