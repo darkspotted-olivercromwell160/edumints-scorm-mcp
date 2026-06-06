@@ -25,3 +25,24 @@ EXAMPLES = os.path.join(os.path.dirname(os.path.dirname(__file__)), "examples")
 @pytest.fixture
 def examples_dir() -> str:
     return EXAMPLES
+
+
+_EXIT_STATUS = {"code": 0}
+
+
+def pytest_sessionfinish(session, exitstatus):
+    _EXIT_STATUS["code"] = int(exitstatus)
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_unconfigure(config):
+    """Süreci kesin sonlandır (özet/rapor BASILDIKTAN sonra — unconfigure en son hook'tur).
+    Sebep: testler bitip rapor yazıldıktan sonra, arka-plan thread'leri (ThreadPoolExecutor /
+    aiosqlite / fastmcp) bazı ortamlarda (GitHub Actions ubuntu) süreç çıkışını bloklayıp
+    'orphan pytest' olarak askıda bırakıyordu → CI 6h timeout'a takılıyordu. Burada os._exit
+    güvenli: tüm raporlama tamamlandı."""
+    import os as _os
+    import sys as _sys
+    _sys.stdout.flush()
+    _sys.stderr.flush()
+    _os._exit(_EXIT_STATUS["code"])
